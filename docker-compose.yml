@@ -1,0 +1,21 @@
+version: "3.3"
+
+services:
+  va-api-bbw-app:
+    container_name: va-api-bbw-app
+    image: va-bbw-api:0.0.1
+    ports:
+      - 8080:8080
+    environment:
+      DATABASE_USERNAME: admin
+      DATABASE_PASSWORD: password
+      DATABASE_URL: jdbc:postgresql://va-api-bbw:5432/va-bbw
+  va-api-bbw:
+    container_name: "va-api-bbw"
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: va-bbw

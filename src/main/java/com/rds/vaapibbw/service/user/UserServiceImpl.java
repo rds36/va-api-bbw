@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService{
     public UserResponse save(UserRequest userRequest) {
         validationUtil.validate(userRequest);
         BbwUser user = new BbwUser();
-        UserResponse userResponse = get(userRequest.getClient_id());
+        UserResponse userResponse = check(userRequest.getClient_id());
 
-        if (!userResponse.getClientId().isEmpty()){
+        if (userResponse.getClientId() != null){
             throw new UserExistException();
         }
 
@@ -51,6 +51,18 @@ public class UserServiceImpl implements UserService{
         Optional<BbwUser> user = userRepository.findById(clientId);
         if (!user.isPresent()){
             throw new UserNotFoundException();
+        }
+        UserResponse userResponse = new UserResponse();
+        userResponse.setAccountName(user.get().getAccountName());
+        userResponse.setClientId(user.get().getClientId());
+        return userResponse;
+    }
+
+    @Override
+    public UserResponse check(String clientId) {
+        Optional<BbwUser> user = userRepository.findById(clientId);
+        if (!user.isPresent()){
+            return new UserResponse();
         }
         UserResponse userResponse = new UserResponse();
         userResponse.setAccountName(user.get().getAccountName());

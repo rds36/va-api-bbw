@@ -7,4 +7,5 @@ public interface UserService {
 
     UserResponse save(UserRequest userRequest);
     UserResponse get(String clientId);
+    UserResponse check(String clientId);
 }
